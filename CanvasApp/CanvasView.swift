@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  CanvasView.swift
 //  CanvasApp
 //
 //  Created by A'zamjon Abdumuxtorov on 17/09/24.
@@ -7,11 +7,12 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct CanvasView: View {
+    
     @State private var verticalOffset: CGSize = .zero
     @State private var horizontalOffset: CGSize = .zero
-    @State private var showVerticalLine:[Int] = []
-    @State private var showHorizontalLine:[Int] = []
+    @State private var showVerticalLine = false
+    @State private var showHorizontalLine = false
     
     let rectangleSize: CGFloat = 350
     
@@ -32,7 +33,7 @@ struct ContentView: View {
                                 // Kvadratning ichida ekanligini tekshirish
                                 if abs(self.verticalOffset.height) > rectangleSize*0.5 &&  abs(self.verticalOffset.height) < rectangleSize*1.5{
                                     // Vertikal chiziqni ko'rsatish
-                                    self.showVerticalLine.append(1)
+                                    self.showVerticalLine = true
                                 }
                                 // O'z joyiga qaytish
                                 withAnimation {
@@ -54,7 +55,7 @@ struct ContentView: View {
                                 // Kvadratning ichida ekanligini tekshirish
                                 if  abs(self.horizontalOffset.height) > rectangleSize*0.5 && abs(self.horizontalOffset.height) < rectangleSize*1.5 {
                                     // Gorizontal chiziqni ko'rsatish
-                                    self.showHorizontalLine.append(1)
+                                    self.showHorizontalLine = true
                                 }
                                 // O'z joyiga qaytish
                                 withAnimation {
@@ -73,32 +74,17 @@ struct ContentView: View {
                     .frame(width: 350, height: 350)
                 
                 // Vertikal chiziq
-                if !showVerticalLine.isEmpty {
-                    HStack {
-                        Spacer()
-                        ForEach(showVerticalLine.indices, id: \.self) { _ in
-                            Rectangle()
-                                .fill(Color.blue)
-                            .frame(width: 10, height: 350)
-                            Spacer()
-                        }
-                       
-                    }.frame(width: 350)
-                   
+                if showVerticalLine {
+                    Rectangle()
+                        .fill(Color.blue)
+                        .frame(width: 10, height: 350)
                 }
                 
                 // Gorizontal chiziq
-                if !showHorizontalLine.isEmpty {
-                    
-                    VStack {
-                        Spacer()
-                        ForEach(showHorizontalLine.indices,id: \.self) { _ in
-                            Rectangle()
-                                .fill(Color.blue)
-                            .frame(width: 350, height: 10)
-                            Spacer()
-                        }
-                    }.frame(height: 350)
+                if showHorizontalLine {
+                    Rectangle()
+                        .fill(Color.blue)
+                        .frame(width: 350, height: 10)
                 }
             }
             Spacer()
@@ -107,8 +93,10 @@ struct ContentView: View {
         .frame(maxWidth: .infinity,maxHeight: .infinity)
         .background(.gray.opacity(0.3))
     }
+    
+   
 }
 
 #Preview {
-    ContentView()
+    CanvasView()
 }
